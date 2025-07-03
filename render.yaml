@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: chargekeep-mcp-server
+    runtime: python
+    buildCommand: |
+      curl -Ls https://astral.sh/uv/install.sh | sh
+      export PATH="$HOME/.local/bin:$PATH"
+      uv pip install --system
+    startCommand: uv run mcp_web_server.py chargekeep_server.py
+    envVars:
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: CHARGEKEEP_API_KEY
+        sync: false
