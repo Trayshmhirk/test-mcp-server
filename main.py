@@ -1,21 +1,14 @@
+# main.py
 from fastapi import FastAPI
 from chargekeep_server_http import ChargeKeepHTTPServer
 from mcp_web_server import MCPWebServer
-import os
 
-# Use Render's dynamic port
-port = int(os.getenv("PORT", 8000))
+# Create servers
+chargekeep = ChargeKeepHTTPServer()
+web_server = MCPWebServer(use_http_mcp=False)
+web_server.attach_server_instance(chargekeep)  # <-- you'd add this method
 
-# Create the unified FastAPI app
+# Combine apps
 app = FastAPI(title="ChargeKeep + MCP Web Server")
-
-# Mount the ChargeKeep MCP HTTP server under /mcp
-chargekeep_app = ChargeKeepHTTPServer().app
-app.mount("/mcp", chargekeep_app)
-
-# Mount the web UI app on root (/) — use full internal HTTP URL
-web_app = MCPWebServer(
-    use_http_mcp=True,
-    http_mcp_url=f"http://localhost:{port}/mcp"
-).app
-app.mount("/", web_app)
+app.mount("/mcp", chargekeep.app)
+app.mount("/", web_server.app)
