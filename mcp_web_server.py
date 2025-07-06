@@ -120,17 +120,17 @@ class MCPWebServer:
     async def connect_to_http_server(self, http_url: str):
         """Connect to an HTTP MCP server"""
         try:
-            # Test connection with initialize
+            print(f"Attempting MCP HTTP handshake to: {http_url}")
             response = await self.send_http_mcp_request("initialize", {})
             if response.get("error"):
                 raise Exception(f"Initialize failed: {response['error']}")
             
-            print(f"Connected to HTTP MCP server at: {http_url}")
+            print(f"✅ Connected to HTTP MCP server at: {http_url}")
             self.server_connected = True
             return True
-            
+
         except Exception as e:
-            print(f"Failed to connect to HTTP MCP server: {e}")
+            print(f"❌ Failed to connect to HTTP MCP server: {e}")
             self.server_connected = False
             return False
 
