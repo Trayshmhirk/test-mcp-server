@@ -9,7 +9,7 @@ port = int(os.getenv("PORT", 10000))
 # Create web server instance
 web_server = MCPWebServer(
     use_http_mcp=True,
-    http_mcp_url="http://chargekeep-mcp-server.onrender.com/mcp",
+    http_mcp_url="https://chargekeep-mcp-server.onrender.com/mcp"
 )
 
 # Ensure connection to HTTP MCP server on startup

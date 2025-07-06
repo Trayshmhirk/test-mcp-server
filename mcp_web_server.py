@@ -146,7 +146,8 @@ class MCPWebServer:
         response = await self.http_client.post(
             self.http_mcp_url,
             json=request_data,
-            timeout=30.0
+            timeout=30.0,
+            follow_redirects=True
         )
         response.raise_for_status()
         return response.json()
